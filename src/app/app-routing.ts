@@ -1,6 +1,5 @@
+import { NotFoundComponent } from './pages/_components/not-found/not-found.component';
 import { Routes } from '@angular/router';
-import { AuthenticationGuard } from './core/guards/authentication.guard';
-import { NotFoundComponent } from './modules/_components/not-found/not-found.component';
 
 export const AppRouting: Routes = [
   {
@@ -11,13 +10,13 @@ export const AppRouting: Routes = [
   {
     path: 'home',
     loadChildren: () =>
-      import('./modules/home/home-routing').then((m) => m.HomeRouting),
+      import('./pages/home/home-routing').then((m) => m.HomeRouting),
     // canActivate: [AuthenticationGuard],
   },
   {
     path: 'login',
     loadComponent: () =>
-      import('./modules/authentication/login.component').then(
+      import('./pages/authentication/login.component').then(
         (m) => m.LoginComponent
       ),
   },
