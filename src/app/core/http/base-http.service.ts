@@ -14,21 +14,21 @@ export class HttpBase {
     this._baseURL = environment.apiBaseUrl;
   }
 
-  get<T>(url: string, params: {[key: string]: any} = {}, retryCount: number, options: {[key: string]: any}): Observable<T> {
+  get<T>(url: string, params: {[key: string]: any} = {}, retryCount: number = 1, options: {[key: string]: any}= {}): Observable<T> {
     return this._httpClient.get<T>(this._buildURL(url), this._requestOptions(params, options)).pipe(
       retry(retryCount),
       catchError(e => this._handleError(e)),
     )
   }
 
-  post<T, E>(url: string, data: E,  params:{[key: string]: any} = {}, retryCount: number,  options: {[key: string]: any}): Observable<T> {
+  post<U, T>(url: string, data: U,  params:{[key: string]: any} = {}, retryCount: number = 1,  options: {[key: string]: any} = {}): Observable<T> {
     return this._httpClient.post<T>(this._buildURL(url), data, this._requestOptions(params, options)).pipe(
       retry(retryCount),
       catchError(e => this._handleError(e)),
     )
   }
 
-  delete<E, T>(url: string, id: E,  params = {}, retryCount: number,  options: {[key: string]: any}): Observable<T> {
+  delete<U, T>(url: string, id: U,  params = {}, retryCount: number =  1,  options: {[key: string]: any}= {}): Observable<T> {
     const urlQuery = `${this._buildURL(url)}${id}`;
     return this._httpClient.delete<T>(urlQuery, this._requestOptions(params, options)).pipe(
       retry(retryCount),
@@ -36,7 +36,7 @@ export class HttpBase {
     )
   }
 
-  put<T>(url: string, data: T, params = {}, retryCount: number,  options: {[key: string]: any}): Observable<T> {
+  put<T>(url: string, data: T, params = {}, retryCount: number =  1,  options: {[key: string]: any}= {}): Observable<T> {
     return this._httpClient.put<T>(this._buildURL(url), data, this._requestOptions(params, options)).pipe(
       retry(retryCount),
       catchError(e => this._handleError(e)),
