@@ -1,0 +1,13 @@
+.header {
+  .left {
+    width: 40%;
+  }
+
+  .right {
+    position: relative;
+    right: 0;
+    display: flex;
+    width: 60%;
+    justify-content: flex-end;
+  }
+}
