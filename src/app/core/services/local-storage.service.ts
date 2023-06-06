@@ -13,7 +13,7 @@ export class LocalStorageService {
   }
 
   get(key: string): string {
-    return this._store.getItem(key) || '';
+    return this._store.getItem(key) || null;
   }
 
   setObject(key: string, value: unknown): void {
