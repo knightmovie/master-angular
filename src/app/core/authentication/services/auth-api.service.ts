@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { IAuthResponse } from '../interfaces/auth-response.interface';
 import { IAuthRequest } from '../interfaces/auth-request.interface';
 import { Injectable } from '@angular/core';
@@ -12,11 +12,11 @@ export class AuthApiService {
   constructor(private _httpBase: HttpBase) { }
 
   login(request: IAuthRequest): Observable<IAuthResponse> {
-    return this._httpBase.post<IAuthRequest, IAuthResponse>('auth/login',  request);
+    return this._httpBase.post<IAuthRequest, IAuthResponse>('auth/login',  request)
   }
 
   logout() {
-
+    return this._httpBase.get<unknown>('auth/logout');
   }
 
   refreshToken(): Observable<IAuthResponse> {

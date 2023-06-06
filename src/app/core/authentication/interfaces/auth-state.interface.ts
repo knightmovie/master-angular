@@ -3,4 +3,5 @@ export interface IAuthState {
   user: IUserInformation;
   token: string;
   tokenExpiry: Date;
+  roles: any[]
 }

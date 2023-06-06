@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { CodeService } from "./code-response.interface";
+import { CodeService } from ".";
 
 export class BaseErrorResponse {
   stack?: string | undefined;
