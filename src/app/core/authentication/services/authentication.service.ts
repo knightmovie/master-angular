@@ -1,6 +1,6 @@
 import { RouterService } from './../../services/router.service';
 import { LoggerService } from './../../services/logger.service';
-import { shareReplay, tap, catchError, throwError, of, map, Observable } from 'rxjs';
+import { shareReplay, tap, catchError, throwError, of, map, Observable, switchMap } from 'rxjs';
 import { AuthApiService } from './auth-api.service';
 import { Injectable } from '@angular/core';
 import { AuthStateService } from './auth-state.service';
@@ -9,7 +9,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { IAuthResponse } from '../interfaces/auth-response.interface';
 import { IAuthState } from '../interfaces/auth-state.interface';
 import { CodeService, ResponseStatus } from '../../interfaces';
-import { BaseErrorResponse } from '../../interfaces/error-response';
+import { ErrorResponse } from '../../interfaces/error-response';
 
 @Injectable({
   providedIn: 'root'
@@ -34,21 +34,28 @@ export class AuthenticationService {
       map(_ => {
         return  {code: CodeService.SUCCESS, message: 'Loggin success'};
       }),
-      catchError((err: BaseErrorResponse)  => {
+      catchError((err: ErrorResponse)  => {
         const response: ResponseStatus = {code: err.code, message: err.message};
         return of(response);
       })
     )
   }
 
-  refreshToken() {
-    this._apiAuth.refreshToken().pipe(
-      catchError((err: BaseErrorResponse) => {
+  refreshToken(): Observable<ResponseStatus>{
+    return this._apiAuth.refreshToken().pipe(
+      tap((respone: IAuthResponse) => {
+        const authState = this._parseAuthState(respone);
+        this._authState.setAuthState(authState);
+      }),
+      map( (_): ResponseStatus => {
+        return {code: CodeService.SUCCESS, message: 'Refresh token success'}
+      }),
+      catchError((err: ErrorResponse) => {
         this._logger.debug('Refresh token', err.message);
         this._authState.reset();
         this._router.redirectLogin();
         return throwError(() => err)
-      })
+      }),
     )
   }
 

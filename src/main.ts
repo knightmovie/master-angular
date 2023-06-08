@@ -6,11 +6,15 @@ import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-br
 import { PreloadAllModules, provideRouter, withPreloading, } from '@angular/router';
 import { AppRouting } from './app/app-routing';
 import { importProvidersFrom } from '@angular/core';
+import { CustomHttpInterceptor } from './app/core/interceptors/custom-interceptor.service';
+import { AuthHttpInterceptor } from './app/core/interceptors/auth-interceptor.service';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideAnimations(),
     importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
-    provideRouter(AppRouting)
+    provideRouter(AppRouting),
+    provideHttpClient(
+      withInterceptors([CustomHttpInterceptor, AuthHttpInterceptor]))
   ],
 });

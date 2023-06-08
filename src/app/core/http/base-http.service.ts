@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, retry, throwError } from 'rxjs';
 import { environment } from "src/environments/environment";
-import { BaseErrorResponse } from "../interfaces/error-response";
+import { ErrorResponse } from "../interfaces/error-response";
 
 
 
@@ -69,7 +69,7 @@ export class HttpBase {
   }
 
   private _handleError(err: HttpErrorResponse) {
-    const baseError = new BaseErrorResponse(err);
+    const baseError = new ErrorResponse(err);
     return throwError(() => baseError)
   }
 }

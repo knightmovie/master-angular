@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { CodeService } from ".";
 
-export class BaseErrorResponse {
+export class ErrorResponse {
   stack?: string | undefined;
   code!: number;
   message!: string;
@@ -12,14 +12,19 @@ export class BaseErrorResponse {
 
 
   private _parseError(err: HttpErrorResponse) {
-    if (err.error instanceof Error) {
-      this.message = err.error.message;
-      this.code = CodeService.ValidateError;
-      this.stackTrace = err.error.stack;
-    } else {
-      this.code = err.status;
-      this.message = err.message;
-      this.stackTrace = JSON.stringify(err.error);
+    try {
+      if (err.error instanceof Error) {
+        this.message = err.error.message;
+        this.code = CodeService.ValidateError;
+        this.stackTrace = err.error.stack;
+      } else {
+        this.code = err.status;
+        this.message = err.message;
+        this.stackTrace = JSON.stringify(err.error);
+      }
+    } catch(e) {
+      this.code = CodeService.SystemError;
+      this.message = JSON.stringify(err);
     }
   }
 }
