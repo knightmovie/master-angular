@@ -26,10 +26,10 @@
       "dom"
     ],
     "paths": {
-      "@core/*": ["app/core/*"],
-      "@shares/*": ["app/share/*"],
-      "@pages/*": ["app/pages/*"],
-      "@config/*": ["app/config/*"]
+      "@core/*": ["src/app/core/*"],
+      "@shares/*": ["src/app/share/*"],
+      "@pages/*": ["src/app/pages/*"],
+      "@config/*": ["src/app/config/*"]
     }
   },
   "angularCompilerOptions": {

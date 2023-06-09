@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from 'src/app/core/services/implementations/authentication.service';
 import { HomeService } from 'src/app/core/services/implementations/home.service';
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
@@ -23,7 +22,6 @@ import { RouterOutlet } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   constructor(
-    private authenService: AuthenticationService,
     private homeService: HomeService
   ) {}
 
@@ -34,6 +32,5 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
-    this.authenService.logOutAndRedirectToLogin();
   }
 }

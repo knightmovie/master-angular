@@ -8,13 +8,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/core/services/implementations/authentication.service';
-import { TokenService } from 'src/app/core/services/implementations/token.service';
-import { MaterialsModule } from 'src/app/shares/modules/materials.module';
+import { AuthenticationService } from '@core/authentication/services/authentication.service';
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, MaterialsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -25,7 +23,6 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authenService: AuthenticationService,
     private router: Router,
-    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
@@ -40,21 +37,21 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.invalid) {
-      return;
-    }
-    if (this.isLogin) {
-      this.authenService.logIn(this.form.value).subscribe((res) => {
-        if (res) {
-          this.tokenService.storeAccessToken(res.accessToken);
-          this.router.navigate(['']);
-        }
-      });
-    } else {
-      this.authenService.register(this.form.value).subscribe((res) => {
-        console.log('register', res);
-      });
-    }
+    // if (this.form.invalid) {
+    //   return;
+    // }
+    // if (this.isLogin) {
+    //   this.authenService.logIn(this.form.value).subscribe((res) => {
+    //     if (res) {
+    //       this.tokenService.storeAccessToken(res.accessToken);
+    //       this.router.navigate(['']);
+    //     }
+    //   });
+    // } else {
+    //   this.authenService.register(this.form.value).subscribe((res) => {
+    //     console.log('register', res);
+    //   });
+    // }
   }
 
   changeForm() {
