@@ -74,9 +74,6 @@ export class AuthStateService {
 
 
   isLoggedIn(): boolean {
-    if (this._localStorage.get(AuthStateService.TOKEN_ACCESS)) {
-      return true;
-    }
-    return false;
+    return this._localStorage.get(AuthStateService.TOKEN_ACCESS) !== null;
   }
 }

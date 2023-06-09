@@ -1,11 +1,10 @@
 import { RedirectService } from './../../services/router.service';
 import { LoggerService } from './../../services/logger.service';
-import { shareReplay, tap, catchError, throwError, of, map, Observable, switchMap } from 'rxjs';
+import { tap, catchError, of, map, Observable } from 'rxjs';
 import { AuthApiService } from './auth-api.service';
 import { Injectable } from '@angular/core';
 import { AuthStateService } from './auth-state.service';
 import { IAuthRequest } from '../interfaces/auth-request.interface';
-import { LocalStorageService } from '../../services/local-storage.service';
 import { IAuthResponse } from '../interfaces/auth-response.interface';
 import { IAuthState } from '../interfaces/auth-state.interface';
 import { CodeService, ResponseStatus } from '../../interfaces';
@@ -34,8 +33,7 @@ export class AuthenticationService {
         return  {code: CodeService.SUCCESS, message: 'Loggin success'};
       }),
       catchError((err: ErrorResponse)  => {
-        const response: ResponseStatus = {code: err.code, message: err.message};
-        return of(response);
+        return of({code: err.code, message: err.message});
       })
     )
   }

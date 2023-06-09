@@ -13,7 +13,6 @@ export const AuthenticationGuard: CanActivateFn = (
   state: RouterStateSnapshot
 ) => {
   const authenService = inject(AuthenticationService);
-  const authStateService = inject(AuthStateService);
   const redirectService = inject(RedirectService);
   if (authenService.isLoggedIn()) {
     return true;
