@@ -9,3 +9,4 @@ export enum HttpStatusCode {
   CONFLICT = 409,
   SYSTEM_ERROR = 500
 }
+

@@ -9,6 +9,10 @@ export class LocalStorageService {
   constructor() {}
 
   set(key: string, value: string): void {
+    if (value === null) {
+      this._store.removeItem(key);
+      return;
+    }
     this._store.setItem(key, value);
   }
 

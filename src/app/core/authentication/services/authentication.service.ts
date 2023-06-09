@@ -1,4 +1,4 @@
-import { RouterService } from './../../services/router.service';
+import { RedirectService } from './../../services/router.service';
 import { LoggerService } from './../../services/logger.service';
 import { shareReplay, tap, catchError, throwError, of, map, Observable, switchMap } from 'rxjs';
 import { AuthApiService } from './auth-api.service';
@@ -19,8 +19,7 @@ export class AuthenticationService {
   constructor(private _apiAuth: AuthApiService,
     private _authState: AuthStateService,
     private _logger: LoggerService,
-    private _router: RouterService) {
-
+    private _redirectService: RedirectService) {
   }
 
   login(request: IAuthRequest): Observable<ResponseStatus> {
@@ -29,7 +28,7 @@ export class AuthenticationService {
         this._logger.debug('Login response', respone);
         const authState = this._parseAuthState(respone);
         this._authState.setAuthState(authState);
-        this._router.navigate(['/home']);
+        this._redirectService.navigate(['/home']);
       }),
       map(_ => {
         return  {code: CodeService.SUCCESS, message: 'Loggin success'};
@@ -41,20 +40,10 @@ export class AuthenticationService {
     )
   }
 
-  refreshToken(): Observable<ResponseStatus>{
+  refreshToken(): Observable<unknown>{
     return this._apiAuth.refreshToken().pipe(
       tap((respone: IAuthResponse) => {
-        const authState = this._parseAuthState(respone);
-        this._authState.setAuthState(authState);
-      }),
-      map( (_): ResponseStatus => {
-        return {code: CodeService.SUCCESS, message: 'Refresh token success'}
-      }),
-      catchError((err: ErrorResponse) => {
-        this._logger.debug('Refresh token', err.message);
-        this._authState.reset();
-        this._router.redirectLogin();
-        return throwError(() => err)
+        this._authState.setAuthState(this._parseAuthState(respone));
       }),
     )
   }
@@ -62,7 +51,7 @@ export class AuthenticationService {
   logout() {
     this._apiAuth.logout().pipe(tap(e => this._logger.debug('Logout', e))).subscribe();
     this._authState.reset();
-    this._router.redirectLogin();
+    this._redirectService.redirectLogin();
   }
 
   isLoggedIn(): boolean {

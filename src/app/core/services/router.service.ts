@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class RouterService {
+export class RedirectService {
 
   constructor(private _router: Router) { }
 
@@ -26,6 +26,6 @@ export class RouterService {
   }
 
   redirectAuthorize() {
-    this.navigate(['/authorize-access'])
+    this.navigate(['/not-authorized'])
   }
 }

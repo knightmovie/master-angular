@@ -20,8 +20,8 @@ export class AuthStateService {
   private _authStateSubject = new BehaviorSubject<IAuthState>(this._value);
   private _authState$ = this._authStateSubject.asObservable();
 
-  private _tokenSubject = new BehaviorSubject<String>(null);
-  private _token$ = this._tokenSubject.asObservable();
+  // private _tokenSubject = new BehaviorSubject<String>(this._authStateSubject.value.token);
+  // private _token$ = this._tokenSubject.asObservable();
 
   constructor(private _localStorage: LocalStorageService) { }
 
@@ -29,9 +29,6 @@ export class AuthStateService {
     this._value = data;
     this._localStorage.set(AuthStateService.TOKEN_ACCESS, data.token);
     this._authStateSubject.next(this._value);
-    if (data !== null) {
-      this.setToken(data.token)
-    }
   }
 
   get authState(): IAuthState {
@@ -43,11 +40,14 @@ export class AuthStateService {
   }
 
   get token$(): Observable<String> {
-    return this._token$;
+    return this._authState$.pipe(map(state => state.token));
   }
 
   setToken(token: string) {
-    this._tokenSubject.next(token);
+    this._value = {...this._value, token};
+    const authState = {...this._value};
+    this._authStateSubject.next(authState);
+    this._localStorage.set(AuthStateService.TOKEN_ACCESS, token)
   }
 
   reset() {

@@ -1,19 +1,23 @@
+import { RedirectService } from './../services/router.service';
 import { Injectable, inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivateFn,
   RouterStateSnapshot,
 } from '@angular/router';
-import { AuthenticationService } from '../services/implementations/authentication.service';
+import { AuthStateService } from '../authentication/services/auth-state.service';
+import { AuthenticationService } from '../authentication/services/authentication.service';
 
 export const AuthenticationGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ) => {
   const authenService = inject(AuthenticationService);
-  if (authenService.isLogin()) {
+  const authStateService = inject(AuthStateService);
+  const redirectService = inject(RedirectService);
+  if (authenService.isLoggedIn()) {
     return true;
   }
-  authenService.logOutAndRedirectToLogin();
+  redirectService.redirectLogin();
   return false;
 };
