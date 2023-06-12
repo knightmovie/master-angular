@@ -1,3 +1,4 @@
+import { LoadingService } from './../../shares/components/loading/loading.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -9,20 +10,37 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/services/authentication.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import { Button } from 'src/app/shares/components/button/button.component';
+import { IAuthRequest } from '@core/authentication/interfaces/auth-request.interface';
+import { CodeService } from '@core/interfaces';
+
+
+
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    Button],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  form: FormGroup;
+  formLogin: FormGroup;
   isLogin: boolean = true;
   constructor(
     private fb: FormBuilder,
     private authenService: AuthenticationService,
     private router: Router,
+    private _loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
@@ -30,28 +48,23 @@ export class LoginComponent implements OnInit {
   }
 
   initFormLogin() {
-    this.form = this.fb.group({
+    this.formLogin = this.fb.group({
       username: [null, Validators.required],
       password: [null, Validators.required],
     });
   }
 
   onSubmit() {
-    // if (this.form.invalid) {
-    //   return;
-    // }
-    // if (this.isLogin) {
-    //   this.authenService.logIn(this.form.value).subscribe((res) => {
-    //     if (res) {
-    //       this.tokenService.storeAccessToken(res.accessToken);
-    //       this.router.navigate(['']);
-    //     }
-    //   });
-    // } else {
-    //   this.authenService.register(this.form.value).subscribe((res) => {
-    //     console.log('register', res);
-    //   });
-    // }
+    if (!this.formLogin.valid) return;
+    const authRequest: IAuthRequest = {... this.formLogin.value };
+    this._loadingService.start()
+    this.authenService.login(authRequest).subscribe(response => {
+      if (response.code !== CodeService.SUCCESS) {
+
+      }
+
+      this._loadingService.stop();
+    })
   }
 
   changeForm() {

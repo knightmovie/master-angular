@@ -1,34 +1,34 @@
+@import 'core';
+
 :host {
   display: flex;
   justify-content: center;
-  margin: 100px 0px;
-}
-
-.mat-form-field {
+  align-items: center;
+  background-color: var(--bg-main);
   width: 100%;
-  min-width: 300px;
-}
+  height: 100%;
 
-mat-card-title,
-mat-card-content {
-  display: flex;
-  justify-content: center;
-}
 
-.error {
-  padding: 16px;
-  width: 300px;
-  color: white;
-  background-color: red;
-}
+  .form-login {
 
-.button {
-  display: flex;
-  margin-bottom: 15px;
-  justify-content: flex-end;
-}
+    display: flex;
+    width: 320rem;
+    flex-direction: column;
+    padding: 30rem;
+    gap: 10rem;
 
-.changeForm {
-  position: absolute;
-  bottom: 10px;
+    .login-title {
+      font-size: 18rem;
+      color: var(--primary);
+      font-weight: bold;
+      text-align: center;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .login-action {
+      display: flex;
+      width: 100%;
+    }
+  }
 }

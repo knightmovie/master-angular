@@ -1,0 +1,42 @@
+@import 'theme.scss';
+
+mv-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 16rem;
+  width: 100%;
+  padding: 10rem 15rem 10rem 12rem;
+  border: 2px solid var(--bg-color);
+  border-radius: var(--border-radius);
+  user-select: none;
+  cursor: pointer;
+
+  // &[disabled='true'] {
+  //   pointer-events: none;
+  //   opacity: 0.5;
+  // }
+
+  &[stroked] {
+    @include stroked-theme();
+  }
+
+  &[icon] {
+    @include icon-them();
+  }
+
+  &[raised] {
+    @include raised-theme();
+  }
+
+  &:hover {
+    box-shadow: 0 5rem 15rem -5rem var(--bg-color);
+  }
+
+  &:active {
+    box-shadow: 0 5rem 15rem -5rem var(--bg-color);
+  }
+
+}

@@ -14,7 +14,7 @@ export const AppRouting: Routes = [
     // canActivate: [AuthenticationGuard],
   },
   {
-    path: 'login',
+    path: 'authentication',
     loadComponent: () =>
       import('./pages/authentication/login.component').then(
         (m) => m.LoginComponent

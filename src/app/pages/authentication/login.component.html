@@ -1,37 +1,24 @@
-<!-- <mat-card>
-  <mat-card-title>Login</mat-card-title>
-  <mat-card-content>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <p>
-        <mat-form-field>
-          <input
-            type="text"
-            matInput
-            placeholder="Username"
-            formControlName="username"
-          />
-        </mat-form-field>
-      </p>
+<div class="auth-container">
+  <mat-card>
+    <form class="form-login" [formGroup]="formLogin">
+      <h3 class="login-title">User Login</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username">
+        <mat-icon matSuffix></mat-icon>
+      </mat-form-field>
 
-      <p>
-        <mat-form-field>
-          <input
-            type="password"
-            matInput
-            placeholder="Password"
-            formControlName="password"
-          />
-        </mat-form-field>
-      </p>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password"  formControlName="password">
+        <mat-icon matSuffix></mat-icon>
+      </mat-form-field>
 
-      <div class="button">
-        <button type="submit" mat-button (click)="onSubmit()">
-          {{ isLogin ? "Login" : "Register" }}
-        </button>
+      <div class="login-action">
+        <mv-button raised [disabled]="formLogin.invalid" (click)="onSubmit()">Login</mv-button>
       </div>
     </form>
-    <a class="changeForm" href="javascript:void(0)" (click)="changeForm()">{{
-      isLogin ? "Register" : "Login"
-    }}</a>
-  </mat-card-content>
-</mat-card> -->
+
+  </mat-card>
+
+</div>
