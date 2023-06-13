@@ -1,3 +1,5 @@
+import { MVInputFormField } from './../../shares/components/input/input.component';
+import { MVInputField, MVInputFieldPrefix, MVInputFieldSuffix, MVInputLabel } from './../../shares/components/input/input.directive';
 import { LoadingService } from './../../shares/components/loading/loading.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -14,22 +16,34 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
-import { Button } from 'src/app/shares/components/button/button.component';
+import { MVButton } from 'src/app/shares/components/button/button.component';
 import { IAuthRequest } from '@core/authentication/interfaces/auth-request.interface';
 import { CodeService } from '@core/interfaces';
+import { MatIconModule } from '@angular/material/icon';
 
+const COMPONENTS = [
+  MVButton,
+  MVInputField,
+  MVInputFieldPrefix,
+  MVInputFieldSuffix,
+  MVInputFormField,
+  MVInputLabel
+]
 
+const MODULES = [
+  CommonModule,
+  ReactiveFormsModule,
+  MatCardModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatButtonModule,
+  MatIconModule
+]
 
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    Button],
+  imports: [...MODULES, ...COMPONENTS],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })

@@ -13,7 +13,7 @@ type Color = 'primary' | 'success' | 'info' | 'warn';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Button {
+export class MVButton {
 
   private _color: Color = 'primary';
   @HostBinding('attr.color') attrColor = 'primary';
@@ -37,5 +37,5 @@ export class Button {
 
   constructor() {}
 
-  
+
 }

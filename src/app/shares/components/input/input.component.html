@@ -1,1 +1,15 @@
-<p>input works!</p>
+<div class="prefix">
+  <ng-content select="[inputFieldPrefix]"></ng-content>
+</div>
+
+<div class="middle" [class.with-label]="label">
+  <ng-content select="[inputFieldLabel]"></ng-content>
+
+  <div class="middle-input">
+    <ng-content select="[inputField]"></ng-content>
+  </div>
+</div>
+
+<div class="suffix">
+  <ng-content select="[inputFieldSuffix]"></ng-content>
+</div>

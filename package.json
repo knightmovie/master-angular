@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "build.iconset": "svg-sprite --config=src/sprite-config.json --dest=src/assets src/assets/icons/*.svg",
     "test": "ng test"
   },
   "private": true,
@@ -23,6 +24,7 @@
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "rxjs": "~7.8.0",
+    "svg-sprite": "^2.0.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
   },

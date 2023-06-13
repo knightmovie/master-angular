@@ -1,4 +1,4 @@
-<div class="auth-container">
+<!-- <div class="auth-container">
   <mat-card>
     <form class="form-login" [formGroup]="formLogin">
       <h3 class="login-title">User Login</h3>
@@ -18,7 +18,30 @@
         <mv-button raised [disabled]="formLogin.invalid" (click)="onSubmit()">Login</mv-button>
       </div>
     </form>
-
   </mat-card>
+</div> -->
 
+
+<div class="auth-container">
+  <mat-card>
+    <form class="form-login" [formGroup]="formLogin">
+      <h3 class="login-title">User Login</h3>
+
+      <mv-input-field>
+        <label inputFieldLabel>Username</label>
+        <input inputField type="text" formControlName="username">
+        <mat-icon inputFieldSuffix svgIcon="account"></mat-icon>
+      </mv-input-field>
+
+      <mv-input-field>
+        <lable inputFieldLabel>Username</lable>
+        <input inputField type="text" formControlName="password" >
+        <mat-icon inputFieldSuffix svgIcon="eye"></mat-icon>
+      </mv-input-field>
+
+      <div class="login-action">
+        <mv-button raised [disabled]="formLogin.invalid" (click)="onSubmit()">Login</mv-button>
+      </div>
+    </form>
+  </mat-card>
 </div>
