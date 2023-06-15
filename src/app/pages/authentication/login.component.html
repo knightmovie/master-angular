@@ -27,17 +27,27 @@
     <form class="form-login" [formGroup]="formLogin">
       <h3 class="login-title">User Login</h3>
 
-      <mv-input-field>
+      <!-- <mv-input-field>
         <label inputFieldLabel>Username</label>
-        <input inputField type="text" formControlName="username">
+        <input inputField type="text" formControlName="username" required>
         <mat-icon inputFieldSuffix svgIcon="account"></mat-icon>
       </mv-input-field>
 
       <mv-input-field>
         <lable inputFieldLabel>Username</lable>
-        <input inputField type="text" formControlName="password" >
+        <input inputField type="password" formControlName="password" >
         <mat-icon inputFieldSuffix svgIcon="eye"></mat-icon>
-      </mv-input-field>
+      </mv-input-field> -->
+
+      <mv-form-field formControlName="username" type="text">
+        <lable fieldLabel>Username</lable>
+        <mat-icon fieldSuffix svgIcon="eye"></mat-icon>
+      </mv-form-field>
+
+      <mv-form-field formControlName="password" type="password">
+        <lable fieldLabel>Password</lable>
+        <mat-icon fieldSuffix svgIcon="eye"></mat-icon>
+      </mv-form-field>
 
       <div class="login-action">
         <mv-button raised [disabled]="formLogin.invalid" (click)="onSubmit()">Login</mv-button>
@@ -45,3 +55,7 @@
     </form>
   </mat-card>
 </div>
+
+
+<button class="Btn">
+</button>

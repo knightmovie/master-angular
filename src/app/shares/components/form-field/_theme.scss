@@ -1,0 +1,26 @@
+mv-form-field {
+  --caret-color: var(--primary);
+  --active-color: var(--active);
+  --bg-color: #f3f3f4;
+  --border-radius: 10rem;
+  --border-color: transparent;
+  --line-heigh: 26rem;
+  --text-color: var(--dark);
+  --bg-color-label: white;
+}
+
+
+@mixin float-label($bg-color, $color) {
+  border: 1.7px solid $color;
+  [fieldLabel] {
+    transform: translateY(-130%) scale(0.9);
+    background-color: $bg-color;
+    padding: 0 .2em;
+    color: $color;
+  }
+
+  mat-icon[inputFieldSuffix] {
+    fill: $color;
+    color: $color;
+  }
+}

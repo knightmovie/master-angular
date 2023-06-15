@@ -1,0 +1,18 @@
+<div class="prefix">
+  <ng-content select="[fieldPrefix]"></ng-content>
+</div>
+
+<div class="middle" [class.with-label]="label">
+  <ng-content select="[fieldLabel]"></ng-content>
+
+  <div class="middle-input">
+    <input [type]="type" (input)="onChange($event.target)" tabindex = 0
+    (focus)="markAsTouched($event)"
+    (focusout)="markAsOutFocus($event)"
+    [formControl]="control">
+  </div>
+</div>
+
+<div class="suffix">
+  <ng-content select="[fieldSuffix]"></ng-content>
+</div>

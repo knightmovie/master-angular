@@ -5,8 +5,10 @@ mv-input-field {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  border-radius: var(--border-radius);
-  background-color: var(--bg-color);
+  border: 1.5px solid #8c8c8c;
+  transition: border 150ms cubic-bezier(0.4,0,0.2,1);
+  background-color: transparent;
+
 
   .prefix {
     display: inline-flex;
@@ -15,16 +17,17 @@ mv-input-field {
   }
 
   .middle {
+    position: relative;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    max-width: 100%;
-    position: relative;
+    min-width: 0;
 
     [inputFieldLabel] {
-      font-size: 12rem;
-      line-height: 16rem;
+      font-size: 14rem;
       color: var(--text-color);
+      position: absolute;
+      transition: all 0.5s;
     }
 
     .middle-input {
@@ -44,6 +47,7 @@ mv-input-field {
       font-size: 17rem;
       line-height: 26rem;
       color: #010101;
+      outline: none;
 
       &::placeholder {
           color: #8c8c8c;
@@ -51,20 +55,71 @@ mv-input-field {
     }
   }
 
-
   .suffix {
     display: inline-flex;
     align-items: center;
     flex-direction: row;
     justify-content: center;
+
   }
+
 
   &[appearance='round'] {
+    padding: 0 20rem;
+    width: 100%;
+    border-radius: var(--border-radius);
 
+    .middle {
+      padding-top: 15rem;
+      height: 50rem;
+
+      &.with-label {
+        input[inputField] {
+          padding: 22rem 0 22rem;
+        }
+      }
+    }
+
+    &:focus-within {
+      border: 1.5px solid #1a73e8;
+
+      [inputFieldLabel] {
+        transform: translateY(-130%) scale(0.9);
+        background-color: white;
+        padding: 0 .2em;
+        color: #2196f3;
+      }
+
+      mat-icon[inputFieldSuffix] {
+        fill: #1a73e8;
+        color: #1a73e8;
+      }
+
+    }
   }
 
+  &.invalid {
+    border: 1.5px solid var(--warning);
+    [inputFieldLabel] {
+      transform: translateY(-130%) scale(0.9);
+      background-color: white;
+      padding: 0 .2em;
+      color: var(--warning);
+    }
 
-  &[appearance='underline'] {
-
+    mat-icon[inputFieldSuffix] {
+      fill: var(--warning);
+      color: var(--warning);
+    }
   }
+
+  &.valid {
+    [inputFieldLabel] {
+      transform: translateY(-130%) scale(0.9);
+      background-color: white;
+      padding: 0 .2em;
+    }
+  }
+
 }
+

@@ -1,4 +1,4 @@
-import { Directive } from "@angular/core";
+import { Directive, ElementRef } from "@angular/core";
 
 @Directive({
   selector: '[inputFieldPrefix]',
@@ -11,7 +11,11 @@ export class MVInputFieldPrefix {}
   selector: '[inputField]',
   standalone: true
 })
-export class MVInputField {}
+export class MVInputField {
+  constructor(public _elementRef: ElementRef<HTMLInputElement>) {
+
+  }
+}
 
 
 @Directive({

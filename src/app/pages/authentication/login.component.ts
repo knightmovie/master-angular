@@ -1,3 +1,4 @@
+import { FormField } from './../../shares/components/form-field/form-field.component';
 import { MVInputFormField } from './../../shares/components/input/input.component';
 import { MVInputField, MVInputFieldPrefix, MVInputFieldSuffix, MVInputLabel } from './../../shares/components/input/input.directive';
 import { LoadingService } from './../../shares/components/loading/loading.service';
@@ -20,6 +21,7 @@ import { MVButton } from 'src/app/shares/components/button/button.component';
 import { IAuthRequest } from '@core/authentication/interfaces/auth-request.interface';
 import { CodeService } from '@core/interfaces';
 import { MatIconModule } from '@angular/material/icon';
+import { FormFieldLabelDirective, FormFieldPrefixDirective, FormFieldSufixDirective } from 'src/app/shares/components/form-field/form-field.directive';
 
 const COMPONENTS = [
   MVButton,
@@ -27,7 +29,12 @@ const COMPONENTS = [
   MVInputFieldPrefix,
   MVInputFieldSuffix,
   MVInputFormField,
-  MVInputLabel
+  MVInputLabel,
+
+  FormField,
+  FormFieldLabelDirective,
+  FormFieldPrefixDirective,
+  FormFieldSufixDirective
 ]
 
 const MODULES = [
@@ -63,7 +70,7 @@ export class LoginComponent implements OnInit {
 
   initFormLogin() {
     this.formLogin = this.fb.group({
-      username: [null, Validators.required],
+      username: ['hell', Validators.required],
       password: [null, Validators.required],
     });
   }
