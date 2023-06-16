@@ -32,7 +32,7 @@
     }
   }
 
-  mv-input-field {
+  mv-form-field:not(:last-child) {
     margin-bottom: 20rem;
   }
 }

@@ -2,7 +2,7 @@ mv-form-field {
   --caret-color: var(--primary);
   --active-color: var(--active);
   --bg-color: #f3f3f4;
-  --border-radius: 10rem;
+  --border-radius: 5rem;
   --border-color: transparent;
   --line-heigh: 26rem;
   --text-color: var(--dark);
@@ -19,7 +19,7 @@ mv-form-field {
     color: $color;
   }
 
-  mat-icon[inputFieldSuffix] {
+  mat-icon[fieldSuffix] {
     fill: $color;
     color: $color;
   }

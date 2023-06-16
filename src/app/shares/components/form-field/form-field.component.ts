@@ -1,9 +1,15 @@
 import { FormFieldLabelDirective } from './form-field.directive';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, EventEmitter, HostBinding, HostListener, Input, Optional, Output, Renderer2, Self, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, EventEmitter, HostBinding, HostListener, Input, Optional, Output, Renderer2, Self, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, FormControl, NgControl, NG_VALUE_ACCESSOR, ReactiveFormsModule, ValidationErrors, Validator, AbstractControl } from '@angular/forms';
-import { debounceTime, tap } from 'rxjs';
+import { ControlValueAccessor, FormControl, NgControl, NG_VALUE_ACCESSOR, ReactiveFormsModule, ValidationErrors, Validator, AbstractControl, Validators } from '@angular/forms';
+import { debounceTime, tap, Subject, takeUntil } from 'rxjs';
+
+// enum InputState {
+//   INIT_VALUE = ''
+// }
+
+type InputState = 'focus-state' | 'invalid-state' | 'valid-state' | 'none';
 
 @Component({
   selector: 'mv-form-field',
@@ -15,13 +21,16 @@ import { debounceTime, tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.appearance]': `appearance`,
+    'tabindex': "-1"
   }
 })
-export class FormField implements ControlValueAccessor, AfterViewInit {
+export class FormField implements ControlValueAccessor, AfterViewInit, OnDestroy {
+
   @ContentChild(FormFieldLabelDirective, {static: true}) label: FormFieldLabelDirective;
   private _onChange: (value: string) => void;
   private _onTouched: () => void;
   private _disabled = false;
+  private _subject = new Subject<void>();
 
   @Input()
   get disabled(): boolean { return this._disabled }
@@ -29,37 +38,41 @@ export class FormField implements ControlValueAccessor, AfterViewInit {
     this._disabled = coerceBooleanProperty(value);
   }
 
-
   @Input() type: string;
   @Input() appearance: 'underline' | 'round' = 'round';
   @Output() blur: EventEmitter<void> = new EventEmitter<void>();
   @Output() onChanged = new EventEmitter<any>();
   public control: FormControl = new FormControl();
 
-  @HostBinding('class.float-label-valid') validClass = false;
-  @HostBinding('class.float-label-invalid') invalidClass = false;
-  @HostBinding('class.focus-input') focusClass = false;
-  @HostBinding('attr.tabindex') public tabindex = -1;
+
+  @HostBinding('attr.input-state') attrFocusState: InputState = 'none';
+
 
   constructor(
     @Self() public _ngControl: NgControl,
-    private _cdr: ChangeDetectorRef,
-    private __render2: Renderer2) {
+    private _cdr: ChangeDetectorRef) {
     this._ngControl.valueAccessor = this;
-    console.log(this._ngControl)
   }
 
 
   ngAfterViewInit(): void {
-    this.control.setValidators(this._ngControl.control.validator)
+    this.control.setValidators(this._ngControl.control.validator);
     this.control.updateValueAndValidity();
-    this.subcribeChanges()
-    this._cdr.detectChanges()
+    this._checkRequiredLabel();
+    this.subcribeValueChanges();
+    setTimeout(() => {
+      this._setDefaultInputState()
+      this._cdr.detectChanges();
+    }, 0)
+  }
+
+  ngOnDestroy(): void {
+    this._subject.next();
+    this._subject.complete();
   }
 
   writeValue(obj: any): void {
     if (this.control && obj) {
-      console.log("Write object", obj)
       this.control.setValue(obj, {emitEvent: false});
       this._cdr.detectChanges()
     }
@@ -77,51 +90,55 @@ export class FormField implements ControlValueAccessor, AfterViewInit {
     this._disabled = isDisabled;
   }
 
-
-  onChange(value: any) {
-    console.log('onChange', this.control.value)
-    console.log('onChange', this.control)
-    this.onChanged.emit(value);
-    this._onChange(value);
-
-    if (this.control.invalid) {
-      this.invalidClass = true;
-      this._cdr.detectChanges();
-    } else {
-      this.invalidClass = false;
-    }
-  }
-
   markAsTouched(event: any) {
-    this.focusClass = true;
+    this._setInputState('focus-state');
+    this._onTouched();
   }
-
 
   markAsOutFocus(event: any) {
-
     if (this.control.invalid) {
-      this.invalidClass = true;
-      this._cdr.detectChanges();
+      this._setInputState('invalid-state');
+    } else if (this.control.value !== null && ((<string>this.control.value).length > 0)) {
+      this._setInputState('valid-state');
     } else {
-      this.validClass = true;
-      const value = this.control.value as string;
-      if (value.length === 0) {
-        this.validClass = false;
-        this.focusClass = false;
-        this.invalidClass = false;
-      }
+      this._setInputState('none')
     }
   }
 
-  subcribeChanges() {
+  subcribeValueChanges() {
     this.control.valueChanges.pipe(
-      debounceTime(500),
+      takeUntil(this._subject),
+      debounceTime(200),
       tap(_ => {
-        this.invalidClass =  (this.control.status === 'INVALID')
-
+        if (this.control.status === 'INVALID') {
+          this._setInputState('invalid-state');
+        } else {
+          this._setInputState('focus-state');
+        }
       })
-    ).subscribe(
+    ).subscribe(value => {
+      this.onChanged.emit(value);
+      this._onChange(value);
+    });
+  }
 
-    )
+  private _setDefaultInputState() {
+    if (this.control.value !== null && !this.control.dirty) {
+      this._setInputState('valid-state')
+    }
+  }
+
+  private _setInputState(state: InputState) {
+    this.attrFocusState = state;
+  }
+
+  private _checkRequiredLabel() {
+    if (this.control?.validator) {
+      const validator = this.control?.validator({} as AbstractControl);
+      if (validator && validator['required']  && this.label) {
+        const text = (this.label.elementRef.nativeElement).innerHTML;
+        (this.label.elementRef.nativeElement).innerHTML =  `${text}*`;
+      }
+    }
   }
 }

@@ -1,14 +1,14 @@
 @import './theme';
 
 mv-form-field {
+  --color-base: #8c8c8c;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  border: 1.7px solid #8c8c8c;
+  border: 1.7px solid var(--color-base);
   transition: border 150ms cubic-bezier(0.4,0,0.2,1);
   background-color: transparent;
-
 
 
   .prefix {
@@ -52,8 +52,6 @@ mv-form-field {
         outline: none;
       }
     }
-
-
   }
 
   .suffix {
@@ -78,35 +76,19 @@ mv-form-field {
         }
       }
     }
-
-    // &:focus-within {
-    //   box-shadow: 0px 3px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-    //   @include float-label(white, #2196f3);
-    // }
   }
 
-  &.focus-input {
+  &[input-state='focus-state'] {
     box-shadow: 0px 3px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
     @include float-label(white, #2196f3);
   }
 
-  &.float-label {
-    @include float-label(white, #2196f3);
-  }
-
-
-  &.float-label-invalid {
+  &[input-state='invalid-state'] {
     @include float-label(white, var(--danger))
   }
 
-
-  &.float-label-invalid {
-    @include float-label(white, var(--danger))
-  }
-
-  &.float-label-valid {
-    box-shadow: 0px 3px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-    @include float-label(white, black);
+  &[input-state='valid-state'] {
+    @include float-label(white, var(--color-base))
   }
 }
 

@@ -1,4 +1,4 @@
-import { Directive } from "@angular/core";
+import { Directive, ElementRef } from "@angular/core";
 
 @Directive({
   selector: '[fieldSuffix]',
@@ -10,7 +10,9 @@ export class FormFieldSufixDirective {}
   selector: '[fieldLabel]',
   standalone: true
 })
-export class FormFieldLabelDirective {}
+export class FormFieldLabelDirective {
+  constructor(public elementRef: ElementRef<HTMLElement>) {}
+}
 
 
 @Directive({

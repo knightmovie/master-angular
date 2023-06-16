@@ -6,7 +6,7 @@
   <ng-content select="[fieldLabel]"></ng-content>
 
   <div class="middle-input">
-    <input [type]="type" (input)="onChange($event.target)" tabindex = 0
+    <input [type]="type" tabindex = 0
     (focus)="markAsTouched($event)"
     (focusout)="markAsOutFocus($event)"
     [formControl]="control">

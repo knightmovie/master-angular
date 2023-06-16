@@ -59,19 +59,23 @@ export class LoginComponent implements OnInit {
   isLogin: boolean = true;
   constructor(
     private fb: FormBuilder,
-    private authenService: AuthenticationService,
-    private router: Router,
+    private _authenService: AuthenticationService,
     private _loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
     this.initFormLogin();
+
+
+    this.formLogin.valueChanges.subscribe(res => {
+      console.log('Form Login response data: ', res)
+    })
   }
 
   initFormLogin() {
     this.formLogin = this.fb.group({
       username: ['hell', Validators.required],
-      password: [null, Validators.required],
+      password: [null],
     });
   }
 
@@ -79,9 +83,10 @@ export class LoginComponent implements OnInit {
     if (!this.formLogin.valid) return;
     const authRequest: IAuthRequest = {... this.formLogin.value };
     this._loadingService.start()
-    this.authenService.login(authRequest).subscribe(response => {
+    this._authenService.login(authRequest).subscribe(response => {
       if (response.code !== CodeService.SUCCESS) {
-
+        console.log("Respone login fail");
+        //TODO: add tooltip to display message
       }
 
       this._loadingService.stop();
