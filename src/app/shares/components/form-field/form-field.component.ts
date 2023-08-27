@@ -1,8 +1,8 @@
 import { FormFieldLabelDirective } from './form-field.directive';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, EventEmitter, HostBinding, HostListener, Input, Optional, Output, Renderer2, Self, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, EventEmitter, HostBinding, Input, Output, Self, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, FormControl, NgControl, NG_VALUE_ACCESSOR, ReactiveFormsModule, ValidationErrors, Validator, AbstractControl, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { debounceTime, tap, Subject, takeUntil } from 'rxjs';
 
 // enum InputState {
